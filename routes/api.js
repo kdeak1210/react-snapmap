@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const controllers = require('../controllers')
 
+// GET all of a resource WHERE req.query
 router.get('/:resource', (req, res, next) => {
   
   const resource = req.params.resource
@@ -31,6 +32,7 @@ router.get('/:resource', (req, res, next) => {
   })
 })
 
+// GET a resource by its id
 router.get('/:resource/:id', (req, res, next) => {
 
   const { resource, id } = req.params
@@ -60,6 +62,7 @@ router.get('/:resource/:id', (req, res, next) => {
   })
 })
 
+// CREATE a new resource (req.body)
 router.post('/:resource', (req, res, next) => {
 
   const resource = req.params.resource
