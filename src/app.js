@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Posts } from './components/containers'
+import store from './stores'
+import { Provider } from 'react-redux'
 
 const App = () => {
   return(
-    <div>
-      Hello React!
-      <Posts />
-    </div>
+    <Provider store={ store.configureStore() }>
+      <div>
+        React Here!
+        <Posts />
+      </div>  
+    </Provider>
   )
 }
 
