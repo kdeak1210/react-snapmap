@@ -16,10 +16,9 @@ const app = express()
 mongoose.connect(process.env.MONGO_URL, {useMongoClient: true}, (err) => {
   if (err){
     console.log('Failure to connect to MongoDB')
-    return
+  } else {
+    console.log('Successfully connected to MongoDB')  
   }
-  
-  console.log('Successfully connected to MongoDB')
 })
 
 // Apply some middleware
