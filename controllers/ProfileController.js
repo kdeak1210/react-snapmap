@@ -3,7 +3,7 @@ const Promise = require('bluebird')
 
 module.exports = {
 
-  get: (params) => {
+  get: (params, isRaw) => {
     return new Promise((resolve, reject) => {
       Profile.find(params, (err, profiles) => {
         if (err){
@@ -11,12 +11,21 @@ module.exports = {
           return
         }
 
-        resolve(profiles)
+        if (isRaw){
+          resolve(profiles)      
+        } else {
+          let list = []
+          profiles.forEach((profile) => {
+            list.push(profile.summary())
+          })
+
+          resolve(list)
+        }
       })
     })
   },
   
-  getById: (id) => {
+  getById: (id, isRaw) => {
     return new Promise((resolve, reject) => {
       Profile.findById(id, (err, profile) => {
         if (err){
@@ -24,12 +33,16 @@ module.exports = {
           return
         }
 
-        resolve(profile)
+        if (isRaw){
+          resolve(profile)      
+        } else {
+          resolve(profile.summary())
+        }
       })
     })
   },
 
-  create: (params) => {
+  create: (params, isRaw) => {
     return new Promise((resolve, reject) => {
       Profile.create(params, (err, profile) => {
         if (err){
@@ -37,7 +50,11 @@ module.exports = {
           return
         }
 
-        resolve(profile)
+        if (isRaw){
+          resolve(profile)      
+        } else {
+          resolve(profile.summary())
+        }
       })
     })
   },

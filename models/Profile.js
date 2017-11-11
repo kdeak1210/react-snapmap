@@ -6,4 +6,14 @@ const ProfileSchema = mongoose.Schema({
   timestamp: {type: Date, default: Date.now}
 })
 
+ProfileSchema.methods.summary = function(){
+  const summary = {
+    username: this.username,
+    timestamp: this.timestamp,
+    id: this._id.toString()
+  }
+
+  return summary
+}
+
 module.exports = mongoose.model('ProfileSchema', ProfileSchema)

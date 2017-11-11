@@ -7,13 +7,23 @@ class Posts extends Component {
 
   componentDidMount(){
     console.log('CDM - Posts')
+
     this.props.fetchPosts(null)
   }
 
   render(){
+    const list = this.props.posts.list.map((post, i) => {
+      return (
+        <li key={post.id}>{post.caption}</li>
+      )
+    })
+
     return(
       <div>
         Posts Component
+        <ol>
+          { list }
+        </ol>
       </div>
     )
   }

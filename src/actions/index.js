@@ -4,8 +4,8 @@ import { APIManager } from '../utils'
 export default {
 
   fetchPosts: (params) => {
+    
     return (dispatch) => {
-
       APIManager
       .get('/api/post', null)
       .then((response) => {

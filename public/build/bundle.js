@@ -21257,15 +21257,29 @@ var Posts = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       console.log('CDM - Posts');
+
       this.props.fetchPosts(null);
     }
   }, {
     key: 'render',
     value: function render() {
+      var list = this.props.posts.list.map(function (post, i) {
+        return _react2.default.createElement(
+          'li',
+          { key: post.id },
+          post.caption
+        );
+      });
+
       return _react2.default.createElement(
         'div',
         null,
-        'Posts Component'
+        'Posts Component',
+        _react2.default.createElement(
+          'ol',
+          null,
+          list
+        )
       );
     }
   }]);
@@ -31629,7 +31643,9 @@ var _constants2 = _interopRequireDefault(_constants);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var initialState = {};
+var initialState = {
+  list: []
+};
 
 exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -31641,6 +31657,7 @@ exports.default = function () {
     case _constants2.default.POSTS_RECEIVED:
       console.log('POSTS_RECEIVED: ' + JSON.stringify(action.posts));
 
+      updatedState['list'] = action.posts;
       return updatedState;
 
     default:
@@ -31686,8 +31703,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
 
   fetchPosts: function fetchPosts(params) {
-    return function (dispatch) {
 
+    return function (dispatch) {
       _utils.APIManager.get('/api/post', null).then(function (response) {
         console.log(response);
         dispatch({

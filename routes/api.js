@@ -17,7 +17,7 @@ router.get('/:resource', (req, res, next) => {
     return
   }
 
-  controller.get(req.query)
+  controller.get(req.query, false)
   .then((results) => {
     res.json({
       confirmation: 'success',
@@ -47,7 +47,7 @@ router.get('/:resource/:id', (req, res, next) => {
     return
   }
 
-  controller.getById(id)
+  controller.getById(id, false)
   .then((result) => {
     res.json({
       confirmation: 'success',
@@ -77,7 +77,7 @@ router.post('/:resource', (req, res, next) => {
     return
   }
 
-  controller.create(req.body)
+  controller.create(req.body, false)
   .then((result) => {
     res.json({
       confirmation: 'success',
