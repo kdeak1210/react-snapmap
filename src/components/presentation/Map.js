@@ -3,13 +3,36 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 
 class Map extends Component {
 
+  constructor(){
+    super()
+    this.state = {
+      map: null
+    }
+
+    this.mapDragged = this.mapDragged.bind(this)
+  }
+
+  mapDragged(){
+    let latLng = this.state.map.getCenter().toJSON()    
+    // console.log('map dragged: ' + JSON.stringify(latLng))
+    this.props.mapMoved(latLng)
+  }
+
   render(){
     const markers = this.props.markers || []
 
     return(
       <GoogleMap
+        ref={ (map) => {
+            if (this.state.map != null)
+              return
+
+            this.setState({map: map})
+          }
+        }
         defaultZoom={ this.props.zoom }
-        defaultCenter={ this.props.center } >
+        defaultCenter={ this.props.center }
+        onDragEnd={ this.mapDragged } >
         {markers.map((marker, index) => (
             <Marker {...marker} />
           )

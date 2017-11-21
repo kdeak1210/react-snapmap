@@ -31650,6 +31650,10 @@ var _constants2 = _interopRequireDefault(_constants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
+  currentLocation: {
+    lat: 40.75,
+    lng: -74.00
+  },
   list: []
 };
 
@@ -32654,19 +32658,41 @@ var Map = function (_Component) {
   function Map() {
     _classCallCheck(this, Map);
 
-    return _possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).call(this));
+
+    _this.state = {
+      map: null
+    };
+
+    _this.mapDragged = _this.mapDragged.bind(_this);
+    return _this;
   }
 
   _createClass(Map, [{
+    key: 'mapDragged',
+    value: function mapDragged() {
+      var latLng = this.state.map.getCenter().toJSON();
+      // console.log('map dragged: ' + JSON.stringify(latLng))
+      this.props.mapMoved(latLng);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var markers = this.props.markers || [];
 
       return _react2.default.createElement(
         _reactGoogleMaps.GoogleMap,
         {
+          ref: function ref(map) {
+            if (_this2.state.map != null) return;
+
+            _this2.setState({ map: map });
+          },
           defaultZoom: this.props.zoom,
-          defaultCenter: this.props.center },
+          defaultCenter: this.props.center,
+          onDragEnd: this.mapDragged },
         markers.map(function (marker, index) {
           return _react2.default.createElement(_reactGoogleMaps.Marker, marker);
         })
@@ -32698,6 +32724,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _presentation = __webpack_require__(93);
 
+var _reactRedux = __webpack_require__(57);
+
+var _actions = __webpack_require__(90);
+
+var _actions2 = _interopRequireDefault(_actions);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32712,23 +32744,32 @@ var MapNavigation = function (_Component) {
   function MapNavigation() {
     _classCallCheck(this, MapNavigation);
 
-    return _possibleConstructorReturn(this, (MapNavigation.__proto__ || Object.getPrototypeOf(MapNavigation)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (MapNavigation.__proto__ || Object.getPrototypeOf(MapNavigation)).call(this));
+
+    _this.setNewLocation = _this.setNewLocation.bind(_this);
+    return _this;
   }
 
   _createClass(MapNavigation, [{
+    key: 'setNewLocation',
+    value: function setNewLocation(location) {
+      console.log('setNewLocation: ' + JSON.stringify(location));
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var center = {
-        lat: 40.75,
-        lng: -74.00
-      };
+      // const center = {
+      //   lat: 40.75,
+      //   lng: -74.00
+      // }
 
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(_presentation.Map, {
-          center: center,
+          center: this.props.posts.currentLocation,
           zoom: 14,
+          mapMoved: this.setNewLocation,
           containerElement: _react2.default.createElement('div', { style: { height: '800px' } }),
           mapElement: _react2.default.createElement('div', { style: { height: '100%' } })
         })
@@ -32739,7 +32780,19 @@ var MapNavigation = function (_Component) {
   return MapNavigation;
 }(_react.Component);
 
-exports.default = MapNavigation;
+var stateToProps = function stateToProps(state) {
+  return {
+    posts: state.post
+  };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+  return {
+    // updateCurrentLocation: (location) => dispatch(actions.updateCurrentLocation(location))
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(MapNavigation);
 
 /***/ }),
 /* 101 */
