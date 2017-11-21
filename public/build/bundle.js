@@ -21267,6 +21267,11 @@ var Posts = function (_Component) {
       this.props.fetchPosts(null);
     }
   }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      console.log('CDU - Posts');
+    }
+  }, {
     key: 'render',
     value: function render() {
       var list = this.props.posts.list.map(function (post, i) {
@@ -31670,6 +31675,12 @@ exports.default = function () {
       updatedState['list'] = action.posts;
       return updatedState;
 
+    case _constants2.default.CURRENT_LOCATION_CHANGED:
+      console.log('CURRENT_LOCATION_CHANGED: ' + JSON.stringify(action.location));
+
+      updatedState['currentLocation'] = action.location;
+      return updatedState;
+
     default:
       return updatedState;
   }
@@ -31687,6 +31698,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
 
+  CURRENT_LOCATION_CHANGED: 'CURRENT_LOCATION_CHANGED',
   POSTS_RECEIVED: 'POSTS_RECEIVED'
 
 };
@@ -31711,6 +31723,13 @@ var _utils = __webpack_require__(36);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
+
+  updateCurrentLocation: function updateCurrentLocation(location) {
+    return {
+      type: _constants2.default.CURRENT_LOCATION_CHANGED,
+      location: location
+    };
+  },
 
   fetchPosts: function fetchPosts(params) {
 
@@ -32753,7 +32772,8 @@ var MapNavigation = function (_Component) {
   _createClass(MapNavigation, [{
     key: 'setNewLocation',
     value: function setNewLocation(location) {
-      console.log('setNewLocation: ' + JSON.stringify(location));
+      // console.log('setNewLocation: ' + JSON.stringify(location))
+      this.props.updateCurrentLocation(location);
     }
   }, {
     key: 'render',
@@ -32788,7 +32808,9 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
   return {
-    // updateCurrentLocation: (location) => dispatch(actions.updateCurrentLocation(location))
+    updateCurrentLocation: function updateCurrentLocation(location) {
+      return dispatch(_actions2.default.updateCurrentLocation(location));
+    }
   };
 };
 

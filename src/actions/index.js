@@ -3,6 +3,13 @@ import { APIManager } from '../utils'
 
 export default {
 
+  updateCurrentLocation: (location) => {
+    return {
+      type: constants.CURRENT_LOCATION_CHANGED,
+      location: location
+    }
+  },
+
   fetchPosts: (params) => {
     
     return (dispatch) => {

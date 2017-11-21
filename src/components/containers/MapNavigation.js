@@ -11,7 +11,8 @@ class MapNavigation extends Component {
   }
 
   setNewLocation(location){
-    console.log('setNewLocation: ' + JSON.stringify(location))
+    // console.log('setNewLocation: ' + JSON.stringify(location))
+    this.props.updateCurrentLocation(location)
   }
 
   render(){
@@ -46,7 +47,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return {
-    // updateCurrentLocation: (location) => dispatch(actions.updateCurrentLocation(location))
+    updateCurrentLocation: (location) => dispatch(actions.updateCurrentLocation(location))
   }
 }
 

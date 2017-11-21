@@ -18,6 +18,12 @@ export default (state = initialState, action) => {
       updatedState['list'] = action.posts
       return updatedState
 
+    case constants.CURRENT_LOCATION_CHANGED:
+      console.log('CURRENT_LOCATION_CHANGED: ' + JSON.stringify(action.location))
+      
+      updatedState['currentLocation'] = action.location
+      return updatedState
+
     default:
       return updatedState
   }
