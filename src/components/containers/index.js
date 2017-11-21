@@ -1,6 +1,9 @@
 import Posts from './Posts'
+import MapNavigation from './MapNavigation'
 
 export {
 
-  Posts
+  Posts,
+  MapNavigation
+  
 }

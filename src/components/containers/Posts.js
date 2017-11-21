@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { CreatePost } from '../presentation'
 import { APIManager } from '../../utils'
 import { connect } from 'react-redux'
 import actions from '../../actions'
@@ -20,7 +21,8 @@ class Posts extends Component {
 
     return(
       <div>
-        Posts Component
+        <CreatePost />
+        
         <ol>
           { list }
         </ol>
