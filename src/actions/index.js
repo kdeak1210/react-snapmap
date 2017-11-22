@@ -10,9 +10,26 @@ export default {
     }
   },
 
-  fetchPosts: (params) => {
-    
+  createPost: (params) => {
     return (dispatch) => {
+
+      APIManager
+      .post('/api/post', params)
+      .then((response) => {
+        console.log(response)
+        // dispatch({
+
+        // })
+      })
+      .catch((err) => {
+        console.log('ERROR: ' + err)
+      })
+    }
+  },
+
+  fetchPosts: (params) => {    
+    return (dispatch) => {
+
       APIManager
       .get('/api/post', null)
       .then((response) => {
@@ -23,17 +40,16 @@ export default {
         })
       })
       .catch((err) => {
-        console.log(err)
+        console.log('ERROR: ' + err)
       })
     }
-
   },
 
-  postsReceived: (posts) => {
-    return {
-      type: constants.POSTS_RECEIVED,
-      posts: posts
-    }
-  },
+  // postsReceived: (posts) => {
+  //   return {
+  //     type: constants.POSTS_RECEIVED,
+  //     posts: posts
+  //   }
+  // },
 
 }

@@ -21256,7 +21256,10 @@ var Posts = function (_Component) {
   function Posts() {
     _classCallCheck(this, Posts);
 
-    return _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).call(this));
+
+    _this.submitPost = _this.submitPost.bind(_this);
+    return _this;
   }
 
   _createClass(Posts, [{
@@ -21270,26 +21273,46 @@ var Posts = function (_Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       console.log('CDU - Posts');
+
+      // check if the list is null (time to make another API call)
+      if (this.props.posts.list == null) {
+        this.props.fetchPosts(null);
+      }
+    }
+  }, {
+    key: 'submitPost',
+    value: function submitPost(post) {
+      var currentLocation = this.props.posts.currentLocation;
+      post['geo'] = [currentLocation.lat, currentLocation.lng];
+
+      console.log('submitPost: ' + JSON.stringify(post));
+      this.props.createPost(post);
     }
   }, {
     key: 'render',
     value: function render() {
-      var list = this.props.posts.list.map(function (post, i) {
-        return _react2.default.createElement(
-          'li',
-          { key: post.id },
-          post.caption
-        );
-      });
+      var list = this.props.posts.list;
+
+      // const list = this.props.posts.list.map((post, i) => {
+      //   return (
+      //     <li key={post.id}>{post.caption}</li>
+      //   )
+      // })
 
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_presentation.CreatePost, null),
+        _react2.default.createElement(_presentation.CreatePost, { onCreate: this.submitPost }),
         _react2.default.createElement(
           'ol',
           null,
-          list
+          list == null ? null : list.map(function (post, i) {
+            return _react2.default.createElement(
+              'li',
+              { key: post.id },
+              post.caption
+            );
+          })
         )
       );
     }
@@ -21308,6 +21331,9 @@ var dispatchToProps = function dispatchToProps(dispatch) {
   return {
     fetchPosts: function fetchPosts(params) {
       return dispatch(_actions2.default.fetchPosts(params));
+    },
+    createPost: function createPost(params) {
+      return dispatch(_actions2.default.createPost(params));
     }
   };
 };
@@ -21406,9 +21432,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
-  get: function get(url, params, callback) {
+  get: function get(url, params) {
     return new _bluebird2.default(function (resolve, reject) {
       _superagent2.default.get(url).query(params).set('Accept', 'application/json').end(function (err, response) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(response.body);
+      });
+    });
+  },
+
+  post: function post(url, params) {
+    return new _bluebird2.default(function (resolve, reject) {
+      _superagent2.default.post(url).send(params).set('Accept', 'application/json').end(function (err, response) {
         if (err) {
           reject(err);
           return;
@@ -31659,7 +31698,7 @@ var initialState = {
     lat: 40.75,
     lng: -74.00
   },
-  list: []
+  list: null
 };
 
 exports.default = function () {
@@ -31670,15 +31709,14 @@ exports.default = function () {
 
   switch (action.type) {
     case _constants2.default.POSTS_RECEIVED:
-      console.log('POSTS_RECEIVED: ' + JSON.stringify(action.posts));
-
+      // console.log('POSTS_RECEIVED: ' + JSON.stringify(action.posts))
       updatedState['list'] = action.posts;
       return updatedState;
 
     case _constants2.default.CURRENT_LOCATION_CHANGED:
-      console.log('CURRENT_LOCATION_CHANGED: ' + JSON.stringify(action.location));
-
+      // console.log('CURRENT_LOCATION_CHANGED: ' + JSON.stringify(action.location))     
       updatedState['currentLocation'] = action.location;
+      updatedState['list'] = null;
       return updatedState;
 
     default:
@@ -31731,9 +31769,23 @@ exports.default = {
     };
   },
 
-  fetchPosts: function fetchPosts(params) {
-
+  createPost: function createPost(params) {
     return function (dispatch) {
+
+      _utils.APIManager.post('/api/post', params).then(function (response) {
+        console.log(response);
+        // dispatch({
+
+        // })
+      }).catch(function (err) {
+        console.log('ERROR: ' + err);
+      });
+    };
+  },
+
+  fetchPosts: function fetchPosts(params) {
+    return function (dispatch) {
+
       _utils.APIManager.get('/api/post', null).then(function (response) {
         console.log(response);
         dispatch({
@@ -31741,17 +31793,17 @@ exports.default = {
           posts: response.results
         });
       }).catch(function (err) {
-        console.log(err);
+        console.log('ERROR: ' + err);
       });
     };
-  },
-
-  postsReceived: function postsReceived(posts) {
-    return {
-      type: _constants2.default.POSTS_RECEIVED,
-      posts: posts
-    };
   }
+
+  // postsReceived: (posts) => {
+  //   return {
+  //     type: constants.POSTS_RECEIVED,
+  //     posts: posts
+  //   }
+  // },
 
 };
 
@@ -31905,10 +31957,38 @@ var CreatePost = function (_Component) {
   function CreatePost() {
     _classCallCheck(this, CreatePost);
 
-    return _possibleConstructorReturn(this, (CreatePost.__proto__ || Object.getPrototypeOf(CreatePost)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (CreatePost.__proto__ || Object.getPrototypeOf(CreatePost)).call(this));
+
+    _this.state = {
+      post: {
+        image: '',
+        caption: ''
+      }
+    };
+
+    _this.updatePost = _this.updatePost.bind(_this);
+    _this.submitPost = _this.submitPost.bind(_this);
+    return _this;
   }
 
   _createClass(CreatePost, [{
+    key: 'updatePost',
+    value: function updatePost(event) {
+      event.preventDefault;
+      var updated = Object.assign({}, this.state.post);
+      updated[event.target.id] = event.target.value;
+      this.setState({
+        post: updated
+      });
+    }
+  }, {
+    key: 'submitPost',
+    value: function submitPost() {
+      console.log('Submit Post: ' + JSON.stringify(this.state.post));
+      var updated = Object.assign({}, this.state.post);
+      this.props.onCreate(updated);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -31923,6 +32003,12 @@ var CreatePost = function (_Component) {
             null,
             'Upload Image'
           )
+        ),
+        _react2.default.createElement('input', { id: 'caption', onChange: this.updatePost, type: 'text', placeholder: 'Caption' }),
+        _react2.default.createElement(
+          'button',
+          { onClick: this.submitPost },
+          'Submit'
         )
       );
     }

@@ -5,7 +5,7 @@ var initialState = {
     lat: 40.75,
     lng: -74.00
   },
-  list: []
+  list: null
 }
 
 export default (state = initialState, action) => {
@@ -13,15 +13,14 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case constants.POSTS_RECEIVED:
-      console.log('POSTS_RECEIVED: ' + JSON.stringify(action.posts))
-
+      // console.log('POSTS_RECEIVED: ' + JSON.stringify(action.posts))
       updatedState['list'] = action.posts
       return updatedState
 
     case constants.CURRENT_LOCATION_CHANGED:
-      console.log('CURRENT_LOCATION_CHANGED: ' + JSON.stringify(action.location))
-      
+      // console.log('CURRENT_LOCATION_CHANGED: ' + JSON.stringify(action.location))     
       updatedState['currentLocation'] = action.location
+      updatedState['list'] = null
       return updatedState
 
     default:

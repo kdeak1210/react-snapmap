@@ -42,7 +42,7 @@ module.exports = {
     })
   },
 
-  create: (params) => {
+  create: (params, isRaw) => {
     return new Promise((resolve, reject) => {
       Post.create(params, (err, post) => {
         if (err){
