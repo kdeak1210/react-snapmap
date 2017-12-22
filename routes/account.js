@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const controllers = require('../controllers')
 const jwt = require('jsonwebtoken')
-// const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 router.get('/:action', (req, res) => {
   const { action } = req.params
@@ -15,7 +15,6 @@ router.get('/:action', (req, res) => {
       })
 
       return
-    
     }
 
     if (req.session.token == null){
@@ -103,7 +102,7 @@ router.post('/:action', (req, res) => {
       }
 
       const profile = results[0]
-      const isPasswordMatch = (candidate.password == profile.password)
+      const isPasswordMatch = (bcrypt.compareSync(candidate.password, profile.password))
 
       if (!isPasswordMatch){
         throw new Error('Incorrect Password')
