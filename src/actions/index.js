@@ -25,6 +25,53 @@ export default {
     }
   },
 
+  login: (params) => {
+    return (dispatch) => {
+
+      APIManager
+      .post('/account/login', params)
+      .then(response => {
+        dispatch({
+          type: constants.CURRENT_USER_RECEIVED,
+          user: response.user
+        })
+      })
+      .catch(err => console.log(err))
+    }
+  },
+
+  checkCurrentUser: () => {
+    return (dispatch) => {
+
+      APIManager
+      .get('/account/currentuser', null)
+      .then(response => {
+        dispatch({
+          type: constants.CURRENT_USER_RECEIVED,
+          user: response.user
+        })
+      })
+      .catch(err => console.log(err))
+
+    }
+  },
+
+  logout: () => {
+    return (dispatch) => {
+
+      APIManager
+      .get('/account/logout', null)
+      .then(response => {
+        dispatch({
+          type: constants.USER_LOGGED_OUT,
+          user: response.user
+        })
+      })
+      .catch(err => console.log(err))
+
+    }
+  },
+
   createPost: (params) => {
     return (dispatch) => {
 

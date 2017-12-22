@@ -13,6 +13,11 @@ export default (state = initialState, action) => {
       updated['user'] = action.user
       return updated
 
+    case constants.USER_LOGGED_OUT:
+      console.log('USER_LOGGED_OUT: ');
+      updated['user'] = action.user
+      return updated
+
     default:
       return updated
   }

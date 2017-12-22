@@ -15,6 +15,11 @@ export default {
           return
         }
 
+        if (response.body.confirmation != 'success'){
+          reject({message: response.body.message})
+          return
+        }
+
         resolve(response.body)
       })
     })
@@ -29,6 +34,11 @@ export default {
       .end((err, response) => {
         if (err){
           reject(err)
+          return
+        }
+
+        if (response.body.confirmation != 'success'){
+          reject({message: response.body.message})
           return
         }
 

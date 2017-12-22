@@ -1,11 +1,11 @@
 import CreatePost from './CreatePost'
 import Map from './Map'
-import Register from './Register'
+import Authenticate from './Authenticate'
 
 export {
 
   CreatePost,
   Map,
-  Register
+  Authenticate
 
 }
