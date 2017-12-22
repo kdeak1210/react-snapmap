@@ -27278,6 +27278,17 @@ var Posts = function (_Component) {
   }, {
     key: 'submitPost',
     value: function submitPost(post) {
+      var user = this.props.account.user;
+      if (user == null) {
+        alert('Sign up or login before submitting a post');
+        return;
+      }
+
+      post['profile'] = {
+        id: user.id,
+        username: user.username
+      };
+
       var currentLocation = this.props.posts.currentLocation;
 
       post['geo'] = [// This array format is required for mongo geospatial query
@@ -27321,7 +27332,8 @@ var Posts = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
   return {
-    posts: state.post
+    posts: state.post,
+    account: state.account
   };
 };
 
@@ -51345,7 +51357,9 @@ var _constants2 = _interopRequireDefault(_constants);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var initialState = {};
+var initialState = {
+  user: null
+};
 
 exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
