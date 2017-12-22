@@ -94,7 +94,7 @@ export default {
     return (dispatch) => {
 
       APIManager
-      .get('/api/post', null)
+      .get('/api/post', params)
       .then((response) => {
         console.log(response)
         dispatch({

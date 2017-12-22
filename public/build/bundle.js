@@ -3060,7 +3060,7 @@ exports.default = {
   fetchPosts: function fetchPosts(params) {
     return function (dispatch) {
 
-      _utils.APIManager.get('/api/post', null).then(function (response) {
+      _utils.APIManager.get('/api/post', params).then(function (response) {
         console.log(response);
         dispatch({
           type: _constants2.default.POSTS_RECEIVED,
@@ -51139,17 +51139,20 @@ var Posts = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       console.log('CDM - Posts');
+      var currentLocation = this.props.posts.currentLocation;
 
-      this.props.fetchPosts(null);
+      this.props.fetchPosts(currentLocation); // currentLocation object already formatted properly
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       console.log('CDU - Posts');
+      var currentLocation = this.props.posts.currentLocation;
 
       // check if the list is null (time to make another API call)
+
       if (this.props.posts.list == null) {
-        this.props.fetchPosts(null);
+        this.props.fetchPosts(currentLocation);
       }
     }
   }, {

@@ -8,22 +8,22 @@ class Posts extends Component {
 
   constructor(){
     super()
-
     this.submitPost = this.submitPost.bind(this)
   }
 
   componentDidMount(){
     console.log('CDM - Posts')
-
-    this.props.fetchPosts(null)
+    const { currentLocation } = this.props.posts
+    this.props.fetchPosts(currentLocation)  // currentLocation object already formatted properly
   }
 
   componentDidUpdate(){
     console.log('CDU - Posts')
+    const { currentLocation } = this.props.posts    
 
     // check if the list is null (time to make another API call)
     if (this.props.posts.list == null) {
-      this.props.fetchPosts(null)
+      this.props.fetchPosts(currentLocation)
     }
   }
 
