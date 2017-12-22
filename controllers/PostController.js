@@ -5,6 +5,11 @@ module.exports = {
 
   get: (params, isRaw) => {
     return new Promise((resolve, reject) => {
+      // Presence of lat and lng indicates a geospatial request
+      if (params.lat != null && params.lng != null){
+        const range = 50/6371 // 6371 = radius of earth in KM
+      }
+
       Post.find(params, (err, posts) => {
         if (err){
           reject(err)
