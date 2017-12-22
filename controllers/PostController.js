@@ -19,7 +19,11 @@ module.exports = {
         delete params['lng']
       }
 
-      Post.find(params, (err, posts) => {
+      const filters = {
+        sort: {timestamp: 1}
+      }
+
+      Post.find(params, null, filters, (err, posts) => {
         if (err){
           reject(err)
           return
