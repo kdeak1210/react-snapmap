@@ -45,8 +45,10 @@ module.exports = {
 
   create: (params, isRaw) => {
     return new Promise((resolve, reject) => {
-      const rawPassword = params['password']
-      params['password'] = bcrypt.hashSync(rawPassword, 10)
+      
+      if (params['password']){
+        params['password'] = bcrypt.hashSync(params.password, 10)
+      }
 
       Profile.create(params, (err, profile) => {
         if (err){
