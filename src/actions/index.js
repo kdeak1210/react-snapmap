@@ -10,6 +10,21 @@ export default {
     }
   },
 
+  register: (params) => {
+    return (dispatch) => {
+
+      APIManager
+      .post('/account/register', params)
+      .then(response => {
+        dispatch({
+          type: constants.CURRENT_USER_RECEIVED,
+          user: response.user
+        })
+      })
+      .catch(err => console.log(err))
+    }
+  },
+
   createPost: (params) => {
     return (dispatch) => {
 

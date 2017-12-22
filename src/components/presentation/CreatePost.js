@@ -51,6 +51,13 @@ class CreatePost extends Component {
     APIManager.uploadFile(url, image, params)
     .then(result => {
       console.log('Upload Finished: ' + JSON.stringify(result))
+      
+      // Update the 'post' local state with the image_url
+      let updated = Object.assign({}, this.state.post)
+      updated['image'] = result.secure_url
+      this.setState({
+        post: updated
+      })
     })
     .catch(err => console.log(err))
 
@@ -58,6 +65,17 @@ class CreatePost extends Component {
 
   submitPost(){
     console.log('Submit Post: ' + JSON.stringify(this.state.post))
+
+    if (this.state.post.image.length == 0){
+      alert('Please upload an image first!')
+      return
+    }
+
+    if (this.state.post.caption.length == 0){
+      alert('Please write a caption first!')
+      return
+    }
+
     let updated = Object.assign({}, this.state.post)
     this.props.onCreate(updated)
   }

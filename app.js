@@ -9,6 +9,7 @@ require('dotenv').config()
 
 const index = require('./routes/index')
 const api = require('./routes/api')
+const account = require('./routes/account')
 
 const app = express()
 
@@ -35,6 +36,7 @@ app.set('view engine', 'handlebars')
 // Routes
 app.use('/', index)
 app.use('/api', api)
+app.use('/account', account)
 
 // Spin up the server
 const port = process.env.port || 3000
