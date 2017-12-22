@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const mongoose = require('mongoose')
+const sessions = require('client-sessions')
 require('dotenv').config()
 
 const index = require('./routes/index')
@@ -27,6 +28,12 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(sessions({
+  cookieName: 'session',
+  secret: process.env.SESSION_SECRET,
+  duration: 24*60*60*1000,  // 1 day
+  activeDuration: 30*60*1000  // 30 min
+}))
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Handlebars Templating Engine

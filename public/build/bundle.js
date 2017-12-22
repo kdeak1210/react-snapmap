@@ -51206,15 +51206,17 @@ var Account = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var user = this.props.account.user;
+
       return _react2.default.createElement(
         'div',
         null,
         'ACCOUNT CONTAINER',
-        this.props.account.user == null ? _react2.default.createElement(_presentation.Register, { onRegister: this.register.bind(this) }) : _react2.default.createElement(
+        user == null ? _react2.default.createElement(_presentation.Register, { onRegister: this.register.bind(this) }) : _react2.default.createElement(
           'p',
           null,
           'Hello ',
-          this.props.account.user.username
+          user.username
         )
       );
     }

@@ -11,13 +11,13 @@ class Account extends Component{
   }
 
   render(){
+    const { user } = this.props.account
     return(
       <div>
         ACCOUNT CONTAINER
-        { (this.props.account.user == null)
+        { (user == null)
           ? <Register onRegister={this.register.bind(this)}/>
-          : <p>Hello {this.props.account.user.username}</p>
-          
+          : <p>Hello {user.username}</p>
         }
         
       </div>
