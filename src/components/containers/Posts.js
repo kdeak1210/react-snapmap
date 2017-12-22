@@ -50,7 +50,7 @@ class Posts extends Component {
   }
 
   render(){
-    const list = this.props.posts.list
+    const list = this.props.posts.list || []
 
     // const list = this.props.posts.list.map((post, i) => {
     //   return (
@@ -62,8 +62,9 @@ class Posts extends Component {
       <div>
         <CreatePost onCreate={this.submitPost}/>      
         <ol>
-          { (list == null) ? null : 
-            list.map((post, i) => {
+          { (list == null) 
+            ? null 
+            : list.map((post, i) => {
               return (
                 <li key={post.id}>{post.caption}</li>
               )

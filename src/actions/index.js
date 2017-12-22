@@ -79,9 +79,10 @@ export default {
       .post('/api/post', params)
       .then((response) => {
         console.log(response)
-        // dispatch({
-
-        // })
+        dispatch({
+          type: constants.POST_CREATED,
+          post: response.result
+        })
       })
       .catch((err) => {
         console.log('ERROR: ' + err)
