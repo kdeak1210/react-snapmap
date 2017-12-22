@@ -28,14 +28,14 @@ class Posts extends Component {
   }
 
   submitPost(post){
-    const currentLocation = this.props.posts.currentLocation
-    post['geo'] = [
+    const { currentLocation } = this.props.posts
+    post['geo'] = [ // This array format is required for mongo geospatial query
       currentLocation.lat,
       currentLocation.lng
     ]
 
     console.log('submitPost: ' + JSON.stringify(post))
-    this.props.createPost(post) 
+    this.props.createPost(post)
   }
 
   render(){
