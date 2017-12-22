@@ -8,6 +8,15 @@ module.exports = {
       // Presence of lat and lng indicates a geospatial request
       if (params.lat != null && params.lng != null){
         const range = 50/6371 // 6371 = radius of earth in KM
+        params['geo'] = {
+          // $ indicates a feature of mongo/mongoose
+          $near: [params.lat, params.lng],
+          $maxDistance: range
+        }
+
+        // Remove params, else query looks for posts w/ specifically these key values
+        delete params['lat']
+        delete params['lng']
       }
 
       Post.find(params, (err, posts) => {
