@@ -83,12 +83,25 @@ class CreatePost extends Component {
   render(){
     return(
       <div>
-        Create Post
-        <Dropzone onDrop={this.imageSelected} style={{border:'none'}}>
-          <button>Upload Image</button>
-        </Dropzone>
-        <input id="caption" onChange={this.updatePost} type="text" placeholder="Caption" />
-        <button onClick={this.submitPost}>Submit</button>
+        <h2>Create Post</h2>
+        <input style={{marginBottom: 12}} id="caption" onChange={this.updatePost} type="text" placeholder="Caption" />    
+        <div className="row">
+          
+          <div className="3u 12u$(small)">
+            <Dropzone onDrop={this.imageSelected} style={{border:'none'}}>
+              <button className="button special small">Upload Image</button>
+            </Dropzone>
+          </div>
+
+          <div className="3u 12u$(small)">
+            <button className="button special small" style={{marginLeft:12, width:'90%'}} onClick={this.submitPost}>Submit</button>
+          </div>
+
+          <div className="6u 12u$(small)">
+            <img style={{float:'right', width:120}} src={this.state.post.image} />   
+          </div>
+        </div>
+        <br /><br /><hr />
       </div>
     )
   }

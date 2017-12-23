@@ -52,25 +52,33 @@ class Posts extends Component {
   render(){
     const list = this.props.posts.list || []
 
-    // const list = this.props.posts.list.map((post, i) => {
-    //   return (
-    //     <li key={post.id}>{post.caption}</li>
-    //   )
-    // })
-
     return(
       <div>
-        <CreatePost onCreate={this.submitPost}/>      
-        <ol>
-          { (list == null) 
-            ? null 
-            : list.map((post, i) => {
-              return (
-                <li key={post.id}>{post.caption}</li>
-              )
-            })
-          }
-        </ol>
+        <CreatePost onCreate={this.submitPost}/>
+
+        <div className="table-wrapper">
+          <table className="alt">
+            <thead>
+              <tr>
+                <th>Image</th><th>Caption</th><th>From</th>
+              </tr>
+            </thead>
+            <tbody>
+              { (list == null) 
+                ? null 
+                : list.map((post, i) => {
+                  return (
+                    <tr key={post.id}>
+                      <td><img style={{width:64}} src={post.image} /></td>
+                      <td>{post.caption}</td>
+                      <td>{post.profile.username}</td>                      
+                    </tr>
+                  )
+                })
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     )
   }

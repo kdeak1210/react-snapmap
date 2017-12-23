@@ -2301,7 +2301,11 @@ module.exports = shallowEqual;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Authenticate = exports.Map = exports.CreatePost = undefined;
+exports.Map = exports.CreatePost = exports.Authenticate = undefined;
+
+var _Authenticate = __webpack_require__(404);
+
+var _Authenticate2 = _interopRequireDefault(_Authenticate);
 
 var _CreatePost = __webpack_require__(184);
 
@@ -2311,15 +2315,11 @@ var _Map = __webpack_require__(205);
 
 var _Map2 = _interopRequireDefault(_Map);
 
-var _Authenticate = __webpack_require__(404);
-
-var _Authenticate2 = _interopRequireDefault(_Authenticate);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.Authenticate = _Authenticate2.default;
 exports.CreatePost = _CreatePost2.default;
 exports.Map = _Map2.default;
-exports.Authenticate = _Authenticate2.default;
 
 /***/ }),
 /* 65 */
@@ -27154,24 +27154,32 @@ var Home = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'container' },
+        null,
+        _react2.default.createElement(
+          'header',
+          { id: 'header', style: { padding: 0 } },
+          _react2.default.createElement(_containers.MapNavigation, null)
+        ),
         _react2.default.createElement(
           'div',
-          { className: 'row' },
+          { id: 'main' },
           _react2.default.createElement(
-            'div',
-            { className: 'col-md-3' },
-            _react2.default.createElement(_containers.MapNavigation, null)
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'col-md-6' },
-            _react2.default.createElement(_containers.Posts, null)
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'col-md-3' },
-            _react2.default.createElement(_containers.Account, null)
+            'section',
+            { id: 'one' },
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: '8u 12u$(small)' },
+                _react2.default.createElement(_containers.Posts, null)
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: '4u 12u$(small)' },
+                _react2.default.createElement(_containers.Account, null)
+              )
+            )
           )
         )
       );
@@ -27459,22 +27467,46 @@ var CreatePost = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        'Create Post',
         _react2.default.createElement(
-          _reactDropzone2.default,
-          { onDrop: this.imageSelected, style: { border: 'none' } },
+          'h2',
+          null,
+          'Create Post'
+        ),
+        _react2.default.createElement('input', { style: { marginBottom: 12 }, id: 'caption', onChange: this.updatePost, type: 'text', placeholder: 'Caption' }),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
           _react2.default.createElement(
-            'button',
-            null,
-            'Upload Image'
+            'div',
+            { className: '3u 12u$(small)' },
+            _react2.default.createElement(
+              _reactDropzone2.default,
+              { onDrop: this.imageSelected, style: { border: 'none' } },
+              _react2.default.createElement(
+                'button',
+                { className: 'button special small' },
+                'Upload Image'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: '3u 12u$(small)' },
+            _react2.default.createElement(
+              'button',
+              { className: 'button special small', style: { marginLeft: 12, width: '90%' }, onClick: this.submitPost },
+              'Submit'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: '6u 12u$(small)' },
+            _react2.default.createElement('img', { style: { float: 'right', width: 120 }, src: this.state.post.image })
           )
         ),
-        _react2.default.createElement('input', { id: 'caption', onChange: this.updatePost, type: 'text', placeholder: 'Caption' }),
-        _react2.default.createElement(
-          'button',
-          { onClick: this.submitPost },
-          'Submit'
-        )
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('hr', null)
       );
     }
   }]);
@@ -51182,26 +51214,65 @@ var Posts = function (_Component) {
     value: function render() {
       var list = this.props.posts.list || [];
 
-      // const list = this.props.posts.list.map((post, i) => {
-      //   return (
-      //     <li key={post.id}>{post.caption}</li>
-      //   )
-      // })
-
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(_presentation.CreatePost, { onCreate: this.submitPost }),
         _react2.default.createElement(
-          'ol',
-          null,
-          list == null ? null : list.map(function (post, i) {
-            return _react2.default.createElement(
-              'li',
-              { key: post.id },
-              post.caption
-            );
-          })
+          'div',
+          { className: 'table-wrapper' },
+          _react2.default.createElement(
+            'table',
+            { className: 'alt' },
+            _react2.default.createElement(
+              'thead',
+              null,
+              _react2.default.createElement(
+                'tr',
+                null,
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Image'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Caption'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'From'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'tbody',
+              null,
+              list == null ? null : list.map(function (post, i) {
+                return _react2.default.createElement(
+                  'tr',
+                  { key: post.id },
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    _react2.default.createElement('img', { style: { width: 64 }, src: post.image })
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    post.caption
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    post.profile.username
+                  )
+                );
+              })
+            )
+          )
         )
       );
     }
@@ -51296,7 +51367,7 @@ var MapNavigation = function (_Component) {
           center: this.props.posts.currentLocation,
           zoom: 14,
           mapMoved: this.setNewLocation,
-          containerElement: _react2.default.createElement('div', { style: { height: '800px' } }),
+          containerElement: _react2.default.createElement('div', { style: { height: '100vh' } }),
           mapElement: _react2.default.createElement('div', { style: { height: '100%' } })
         })
       );
