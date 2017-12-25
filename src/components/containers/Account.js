@@ -50,7 +50,7 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
   return {
     checkCurrentUser: () => dispatch(actions.checkCurrentUser()),
-    login: (params) => dispatch(actions.register(params)),
+    login: (params) => dispatch(actions.login(params)),
     logout: () => dispatch(actions.logout()),
     register: (params) => dispatch(actions.register(params))    
   }

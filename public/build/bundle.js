@@ -27327,7 +27327,7 @@ var dispatchToProps = function dispatchToProps(dispatch) {
       return dispatch(_actions2.default.checkCurrentUser());
     },
     login: function login(params) {
-      return dispatch(_actions2.default.register(params));
+      return dispatch(_actions2.default.login(params));
     },
     logout: function logout() {
       return dispatch(_actions2.default.logout());
@@ -51355,10 +51355,24 @@ var MapNavigation = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      // const center = {
-      //   lat: 40.75,
-      //   lng: -74.00
-      // }
+      var posts = this.props.posts.list || [];
+
+      var markers = [];
+      posts.forEach(function (post, i) {
+        var latlng = {
+          lat: post.geo[0],
+          lng: post.geo[1]
+        };
+
+        var marker = {
+          key: post.id,
+          label: post.caption,
+          position: latlng,
+          defaultAnimation: 2
+        };
+
+        markers.push(marker);
+      });
 
       return _react2.default.createElement(
         'div',
@@ -51368,7 +51382,8 @@ var MapNavigation = function (_Component) {
           zoom: 14,
           mapMoved: this.setNewLocation,
           containerElement: _react2.default.createElement('div', { style: { height: '100vh' } }),
-          mapElement: _react2.default.createElement('div', { style: { height: '100%' } })
+          mapElement: _react2.default.createElement('div', { style: { height: '100%' } }),
+          markers: markers
         })
       );
     }

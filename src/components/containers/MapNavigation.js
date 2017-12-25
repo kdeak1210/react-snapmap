@@ -16,10 +16,24 @@ class MapNavigation extends Component {
   }
 
   render(){
-    // const center = {
-    //   lat: 40.75,
-    //   lng: -74.00
-    // }
+    const posts = this.props.posts.list || []
+
+    let markers = []
+    posts.forEach((post, i) => {
+      const latlng = {
+        lat: post.geo[0],
+        lng: post.geo[1]
+      }
+
+      const marker = {
+        key: post.id,
+        label: post.caption,
+        position: latlng,
+        defaultAnimation: 2
+      }
+
+      markers.push(marker)
+    })
 
     return(
       <div>
@@ -32,7 +46,8 @@ class MapNavigation extends Component {
           } 
           mapElement={
             <div style={{ height: '100%' }}/> 
-          } 
+          }
+          markers={markers}
         />
       </div>
     )

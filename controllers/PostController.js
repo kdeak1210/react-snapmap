@@ -20,7 +20,7 @@ module.exports = {
       }
 
       const filters = {
-        sort: {timestamp: 1}
+        sort: {timestamp: -1}
       }
 
       Post.find(params, null, filters, (err, posts) => {
