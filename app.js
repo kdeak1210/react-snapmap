@@ -46,7 +46,7 @@ app.use('/api', api)
 app.use('/account', account)
 
 // Spin up the server
-const port = process.env.port || 3000
+const port = process.env.PORT || 3000
 app.listen(port, (err) => {
   if (err){
     console.log(`Error while trying to connect to port ${port}`)
