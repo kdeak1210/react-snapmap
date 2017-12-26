@@ -21,7 +21,7 @@ export default {
           user: response.user
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log('ERROR: ' + err))
     }
   },
 
@@ -36,7 +36,7 @@ export default {
           user: response.user
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log('ERROR: ' + err))
     }
   },
 
@@ -51,7 +51,7 @@ export default {
           user: response.user
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log('ERROR: ' + err))
 
     }
   },
@@ -67,7 +67,7 @@ export default {
           user: response.user
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log('ERROR: ' + err))
 
     }
   },
@@ -96,7 +96,6 @@ export default {
       APIManager
       .get('/api/post', params)
       .then((response) => {
-        console.log(response)
         dispatch({
           type: constants.POSTS_RECEIVED,
           posts: response.results

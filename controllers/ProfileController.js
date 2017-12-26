@@ -34,6 +34,11 @@ module.exports = {
           return
         }
 
+        if (profile == null){
+          resolve(null)
+          return  // Token expire fix (?)
+        }
+
         if (isRaw){
           resolve(profile)      
         } else {
